@@ -1,7 +1,15 @@
 import React, { useState } from "react";
 import { useAuth } from "../context/AuthContext";
-import { TextField, Button, Typography, Container } from "@mui/material";
+import {
+  TextField,
+  Button,
+  Typography,
+  Container,
+  Grid,
+  Box,
+} from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 const Signup = () => {
   const { signup } = useAuth();
@@ -35,7 +43,7 @@ const Signup = () => {
 
     // Handling nested object for address
     if (name.startsWith("address.")) {
-      const addressField = name.split(".")[1]; // Get the field name (street, city, state, zipCode)
+      const addressField = name.split(".")[1];
       setFormData((prev) => ({
         ...prev,
         address: {
@@ -43,9 +51,7 @@ const Signup = () => {
           [addressField]: value,
         },
       }));
-    }
-    // Handling medical history fields
-    else if (
+    } else if (
       name === "condition" ||
       name === "treatment" ||
       name === "doctor"
@@ -57,9 +63,7 @@ const Signup = () => {
         [name]: value,
       };
       setFormData({ ...formData, medicalHistory: newMedicalHistory });
-    }
-    // Handling other fields
-    else {
+    } else {
       setFormData({ ...formData, [name]: value });
     }
   };
@@ -77,6 +81,8 @@ const Signup = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const responseData = await signup(formData);
+
+    toast.success("You register successfully!");
     if (!responseData.patient.profileComplete) {
       navigate("/complete-profile");
     } else {
@@ -85,107 +91,197 @@ const Signup = () => {
   };
 
   return (
-    <Container>
-      <Typography variant="h4">Sign Up</Typography>
-      <form onSubmit={handleSubmit}>
-        {/* Basic Fields */}
-        <TextField
-          onChange={handleChange}
-          label="First Name"
-          name="firstName"
-          required
-        />
-        <TextField
-          onChange={handleChange}
-          label="Last Name"
-          name="lastName"
-          required
-        />
-        <TextField
-          onChange={handleChange}
-          label="Email"
-          name="email"
-          required
-        />
-        <TextField
-          onChange={handleChange}
-          label="Password"
-          name="password"
-          type="password"
-          required
-        />
-        <TextField onChange={handleChange} name="dob" type="date" required />
-        <TextField
-          onChange={handleChange}
-          label="Phone"
-          name="phone"
-          required
-        />
-        <TextField
-          onChange={handleChange}
-          label="Gender"
-          name="gender"
-          required
-        />
+    <Container
+      maxWidth="sm"
+      style={{
+        height: "100vh",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
+      <Box
+        sx={{
+          padding: 3,
+          borderRadius: 2,
+          boxShadow: 3,
+          bgcolor: "background.paper",
+        }}
+      >
+        <Typography variant="h4" align="center" gutterBottom>
+          Sign Up
+        </Typography>
+        <form onSubmit={handleSubmit}>
+          <Grid container spacing={2}>
+            {/* Basic Fields */}
+            <Grid item xs={12}>
+              <TextField
+                onChange={handleChange}
+                label="First Name"
+                name="firstName"
+                fullWidth
+                required
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                onChange={handleChange}
+                label="Last Name"
+                name="lastName"
+                fullWidth
+                required
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                onChange={handleChange}
+                label="Email"
+                name="email"
+                fullWidth
+                required
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                onChange={handleChange}
+                label="Password"
+                name="password"
+                type="password"
+                fullWidth
+                required
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                onChange={handleChange}
+                name="dob"
+                type="date"
+                fullWidth
+                required
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                onChange={handleChange}
+                label="Phone"
+                name="phone"
+                fullWidth
+                required
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                onChange={handleChange}
+                label="Gender"
+                name="gender"
+                fullWidth
+                required
+              />
+            </Grid>
 
-        {/* Address Fields */}
-        <Typography variant="h6">Address</Typography>
-        <TextField
-          onChange={handleChange}
-          label="Street"
-          name="address.street"
-          required
-        />
-        <TextField
-          onChange={handleChange}
-          label="City"
-          name="address.city"
-          required
-        />
-        <TextField
-          onChange={handleChange}
-          label="State"
-          name="address.state"
-          required
-        />
-        <TextField
-          onChange={handleChange}
-          label="Zip Code"
-          name="address.zipCode"
-          required
-        />
+            {/* Address Fields */}
+            <Grid item xs={12}>
+              <Typography variant="h6" gutterBottom>
+                Address
+              </Typography>
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                onChange={handleChange}
+                label="Street"
+                name="address.street"
+                fullWidth
+                required
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                onChange={handleChange}
+                label="City"
+                name="address.city"
+                fullWidth
+                required
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                onChange={handleChange}
+                label="State"
+                name="address.state"
+                fullWidth
+                required
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                onChange={handleChange}
+                label="Zip Code"
+                name="address.zipCode"
+                fullWidth
+                required
+              />
+            </Grid>
 
-        {/* Medical History Fields */}
-        <Typography variant="h6">Medical History</Typography>
-        {formData.medicalHistory.map((entry, index) => (
-          <div key={index}>
-            <TextField
-              onChange={handleChange}
-              label="Condition"
-              name="condition"
-              data-index={index}
-              required
-            />
-            <TextField
-              onChange={handleChange}
-              label="Treatment"
-              name="treatment"
-              data-index={index}
-            />
-            <TextField
-              onChange={handleChange}
-              label="Doctor"
-              name="doctor"
-              data-index={index}
-            />
-          </div>
-        ))}
-        <Button type="button" onClick={addMedicalHistory}>
-          Add More Medical History
-        </Button>
-
-        <Button type="submit">Sign Up</Button>
-      </form>
+            {/* Medical History Fields */}
+            <Grid item xs={12}>
+              <Typography variant="h6" gutterBottom>
+                Medical History
+              </Typography>
+            </Grid>
+            {formData.medicalHistory.map((entry, index) => (
+              <Grid container spacing={2} key={index}>
+                <Grid item xs={12} sm={4}>
+                  <TextField
+                    onChange={handleChange}
+                    label="Condition"
+                    name="condition"
+                    data-index={index}
+                    fullWidth
+                    required
+                  />
+                </Grid>
+                <Grid item xs={12} sm={4}>
+                  <TextField
+                    onChange={handleChange}
+                    label="Treatment"
+                    name="treatment"
+                    data-index={index}
+                    fullWidth
+                  />
+                </Grid>
+                <Grid item xs={12} sm={4}>
+                  <TextField
+                    onChange={handleChange}
+                    label="Doctor"
+                    name="doctor"
+                    data-index={index}
+                    fullWidth
+                  />
+                </Grid>
+              </Grid>
+            ))}
+            <Grid item xs={12}>
+              <Button
+                type="button"
+                variant="outlined"
+                onClick={addMedicalHistory}
+              >
+                Add More Medical History
+              </Button>
+            </Grid>
+            <Grid item xs={12}>
+              <Button
+                type="submit"
+                variant="contained"
+                color="primary"
+                fullWidth
+              >
+                Sign Up
+              </Button>
+            </Grid>
+          </Grid>
+        </form>
+      </Box>
     </Container>
   );
 };

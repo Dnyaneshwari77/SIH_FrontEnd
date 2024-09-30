@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { Container } from "@mui/material";
+import { CSSTransition, TransitionGroup } from "react-transition-group"; // Import CSSTransition and TransitionGroup
 
 // Components
 import Header from "./components/Header";
@@ -12,17 +13,16 @@ import NotFound from "./pages/NotFound";
 
 // Pages
 import Home from "./pages/Home";
-import DoctorList from "./components/DoctorList";
-import AppointmentForm from "./components/AppointmentForm";
-import PastAppointments from "./components/PastAppointments";
+import CompleteProfile from "./pages/CompleteProfile";
+import { Toaster } from "react-hot-toast";
 
 // Context
 import { AuthProvider } from "./context/AuthContext";
-import CompleteProfile from "./pages/CompleteProfile";
 
 function App() {
   const [selectedHospital, setSelectedHospital] = useState(null);
   const [selectedDoctor, setSelectedDoctor] = useState(null);
+  const location = useLocation(); // Get current location
 
   const handleHospitalSelect = (hospitalId) => {
     setSelectedHospital(hospitalId);
@@ -34,25 +34,35 @@ function App() {
 
   return (
     <AuthProvider>
-      <BrowserRouter>
-        <div>
-          <Header />
-          <Container>
-            <Routes>
+      <Header />
+      <Toaster />
+      <Container>
+        <TransitionGroup>
+          <CSSTransition
+            key={location.key} // Unique key for each route
+            classNames="fade" // Class prefix for fade effect
+            timeout={300} // Duration of the transition
+          >
+            <Routes location={location}>
               <Route index element={<Home />} />
               <Route path="hospital-list" element={<HospitalList />} />
               <Route path="contact-us" element={<ContactUs />} />
               <Route path="signup" element={<Signup />} />
-              <Route path="login" element={<Login />} />{" "}
+              <Route path="login" element={<Login />} />
               <Route path="complete-profile" element={<CompleteProfile />} />
-              {/* Ensure Login is correctly imported */}
               <Route path="*" element={<NotFound />} />
             </Routes>
-          </Container>
-        </div>
-      </BrowserRouter>
+          </CSSTransition>
+        </TransitionGroup>
+      </Container>
     </AuthProvider>
   );
 }
 
-export default App;
+const AppWithRouter = () => (
+  <BrowserRouter>
+    <App />
+  </BrowserRouter>
+);
+
+export default AppWithRouter;

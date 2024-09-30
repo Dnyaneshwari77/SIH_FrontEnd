@@ -19,6 +19,7 @@ import {
 import SearchBar from "./SearchBar";
 import { hospitals } from "../data/hospitals";
 import { doctors } from "../data/doctor";
+import toast from "react-hot-toast";
 
 import { jsPDF } from "jspdf";
 import axios from "axios"; // Import axios for API calls
@@ -107,7 +108,7 @@ const HospitalList = () => {
     setTransactionId(fakeTransactionId);
     generateQrCode();
     setTimeout(() => {
-      alert("Payment successful!");
+      toast.success("Payment sucessfull");
       setIsPaymentComplete(true);
     }, 2000);
 
@@ -131,11 +132,11 @@ const HospitalList = () => {
         "https://sih-server-5ao9.onrender.com/api/send-appointment-email",
         emailData
       );
-      alert("Email sent successfully!");
+      toast.success("Email sent successfully!");
       console.log(response);
     } catch (error) {
       console.error("Error sending email:", error);
-      alert("Failed to send email. Please try again.");
+      toast.error("Failed to send email. Please try again.");
     }
   };
 
@@ -214,7 +215,7 @@ const HospitalList = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/appointments/save",
+        "https://sih-server-5ao9.onrender.com/api/appointments/save",
         appointmentData
       );
       console.log("Appointment saved:", response.data);

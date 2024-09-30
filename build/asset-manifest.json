@@ -1,0 +1,29 @@
+{
+  "files": {
+    "main.css": "/static/css/main.e6c13ad2.css",
+    "main.js": "/static/js/main.00955b6f.js",
+    "static/js/239.f4032513.chunk.js": "/static/js/239.f4032513.chunk.js",
+    "static/js/213.8e687742.chunk.js": "/static/js/213.8e687742.chunk.js",
+    "static/js/732.4bd19f0b.chunk.js": "/static/js/732.4bd19f0b.chunk.js",
+    "static/js/453.00e6d5b4.chunk.js": "/static/js/453.00e6d5b4.chunk.js",
+    "static/media/doctorTeam.png": "/static/media/doctorTeam.95314de4817efa45c244.png",
+    "static/media/medicine.png": "/static/media/medicine.3376db93f05f1023b9da.png",
+    "static/media/bed_allocation.png": "/static/media/bed_allocation.96eac493a373f7f76fc0.png",
+    "static/media/hero_image.png": "/static/media/hero_image.356ea96dd4e8f10f1e5d.png",
+    "static/media/good_doctor.png": "/static/media/good_doctor.60348221571c593e1338.png",
+    "static/media/doctor1.jpg": "/static/media/doctor1.7210050ec81453e0dadc.jpg",
+    "static/media/timeCalculation.png": "/static/media/timeCalculation.51b4c11205b9c984c11f.png",
+    "static/media/schedule.png": "/static/media/schedule.c6a88b06e0490b3a1e9f.png",
+    "index.html": "/index.html",
+    "main.e6c13ad2.css.map": "/static/css/main.e6c13ad2.css.map",
+    "main.00955b6f.js.map": "/static/js/main.00955b6f.js.map",
+    "239.f4032513.chunk.js.map": "/static/js/239.f4032513.chunk.js.map",
+    "213.8e687742.chunk.js.map": "/static/js/213.8e687742.chunk.js.map",
+    "732.4bd19f0b.chunk.js.map": "/static/js/732.4bd19f0b.chunk.js.map",
+    "453.00e6d5b4.chunk.js.map": "/static/js/453.00e6d5b4.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.e6c13ad2.css",
+    "static/js/main.00955b6f.js"
+  ]
+}

@@ -12,19 +12,16 @@ import { useAuth } from "../context/AuthContext";
 
 const CompleteProfile = () => {
   const { currentUser, updateProfile } = useAuth();
-
-
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (currentUser == "No user") {
+    if (currentUser === "No user") {
       navigate("/login");
-    } else {
-      if (currentUser.profileComplete == true) {
-        navigate("/hospital-list");
-      }
+    } else if (currentUser.profileComplete) {
+      navigate("/hospital-list");
     }
-  });
+  }, [currentUser, navigate]);
+
   // Initialize form state
   const [formData, setFormData] = useState({
     height: "",
@@ -43,7 +40,7 @@ const CompleteProfile = () => {
         return acc + (value ? 1 : 0);
       }
       if (Array.isArray(value)) {
-        return acc + value.length; // Count filled array fields
+        return acc + value.filter((item) => item).length; // Count filled array fields
       }
       return acc;
     }, 0);
@@ -134,32 +131,37 @@ const CompleteProfile = () => {
   }, [formData]);
 
   return (
-    <Container>
-      <Typography variant="h4">Complete Your Profile</Typography>
+    <Container maxWidth="sm" sx={{ mt: 4 }}>
+      <Typography variant="h4" align="center" gutterBottom>
+        Complete Your Profile
+      </Typography>
       <LinearProgress
         variant="determinate"
         value={calculateCompletionPercentage()}
+        sx={{ mb: 2 }}
       />
       <form onSubmit={handleSubmit}>
         {/* Personal Info Fields */}
         <Typography variant="h6">Personal Info</Typography>
         <TextField
           onChange={handleChange}
-          label="Height"
+          label="Height (cm)"
           name="height"
           fullWidth
           margin="normal"
         />
         <TextField
           onChange={handleChange}
-          label="Weight"
+          label="Weight (kg)"
           name="weight"
           fullWidth
           margin="normal"
         />
+
+        {/* Allergies */}
         <Typography variant="h6">Allergies</Typography>
         {formData.allergies.map((allergy, index) => (
-          <Box key={index} display="flex" alignItems="center">
+          <Box key={index} display="flex" alignItems="center" mb={1}>
             <TextField
               onChange={(e) => handleAllergyChange(index, e.target.value)}
               value={allergy}
@@ -169,13 +171,19 @@ const CompleteProfile = () => {
             />
           </Box>
         ))}
-        <Button onClick={addAllergy} type="button">
+        <Button
+          onClick={addAllergy}
+          type="button"
+          variant="outlined"
+          sx={{ mb: 2 }}
+        >
           Add Allergy
         </Button>
 
+        {/* Current Medications */}
         <Typography variant="h6">Current Medications</Typography>
         {formData.currentMedications.map((medication, index) => (
-          <Box key={index} display="flex" alignItems="center">
+          <Box key={index} display="flex" alignItems="center" mb={1}>
             <TextField
               onChange={(e) => handleMedicationChange(index, e.target.value)}
               value={medication}
@@ -185,7 +193,12 @@ const CompleteProfile = () => {
             />
           </Box>
         ))}
-        <Button onClick={addMedication} type="button">
+        <Button
+          onClick={addMedication}
+          type="button"
+          variant="outlined"
+          sx={{ mb: 2 }}
+        >
           Add Medication
         </Button>
 
@@ -200,7 +213,7 @@ const CompleteProfile = () => {
         {/* Document URL Fields */}
         <Typography variant="h6">Document URLs</Typography>
         {formData.documents.map((doc, index) => (
-          <Box key={index} display="flex" flexDirection="column">
+          <Box key={index} display="flex" flexDirection="column" mb={2}>
             <TextField
               onChange={handleChange}
               label="Document Type"
@@ -217,7 +230,12 @@ const CompleteProfile = () => {
             />
           </Box>
         ))}
-        <Button type="button" onClick={addDocument}>
+        <Button
+          type="button"
+          onClick={addDocument}
+          variant="outlined"
+          sx={{ mb: 2 }}
+        >
           Add More Document
         </Button>
 
@@ -225,7 +243,8 @@ const CompleteProfile = () => {
           type="submit"
           variant="contained"
           color="primary"
-          style={{ marginTop: 20 }}
+          fullWidth
+          sx={{ marginTop: 2 }}
         >
           Submit
         </Button>
